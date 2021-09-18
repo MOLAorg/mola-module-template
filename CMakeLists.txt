@@ -18,7 +18,7 @@ find_package(mola-common REQUIRED)
 
 # find CMake dependencies:
 find_package(mrpt-tclap)
-#find_package(mrpt-poses)
+find_package(mrpt-core)
 
 # Find MOLA packages:
 find_mola_package(mola-kernel)
