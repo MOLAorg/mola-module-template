@@ -10,18 +10,21 @@
 # Minimum CMake vesion: limited by CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS
 cmake_minimum_required(VERSION 3.4)
 
+if("$ENV{ROS_VERSION}" STREQUAL "2")
+	set(DETECTED_ROS2 TRUE)
+endif()
+
 # Tell CMake we'll use C++ for use in its tests/flags
 project(mola-foo LANGUAGES CXX)
 
 # MOLA CMake scripts: "mola_xxx()"
-find_package(mola-common REQUIRED)
+find_package(mola_common REQUIRED)
 
 # find CMake dependencies:
-find_package(mrpt-tclap)
-find_package(mrpt-core)
+#find_package(mrpt-core)
 
 # Find MOLA packages:
-find_mola_package(mola-kernel)
+#find_mola_package(mola_kernel)
 
 # -----------------------
 # define lib:
@@ -32,11 +35,11 @@ mola_add_library(
 	TARGET ${PROJECT_NAME}
 	SOURCES ${LIB_SRCS} ${LIB_PUBLIC_HDRS}
 	PUBLIC_LINK_LIBRARIES
-		mola-kernel
+		mola_kernel
 	PRIVATE_LINK_LIBRARIES
 		mrpt::core
 	CMAKE_DEPENDENCIES
-		mola-kernel
+		mola_kernel
 )
 
 # ----------------------
@@ -49,3 +52,17 @@ mola_add_executable(
 		#mrpt::poses
 		${PROJECT_NAME}
 )
+
+# -----------------------------------------------------------------------------
+#  ROS2
+# -----------------------------------------------------------------------------
+#if (DETECTED_ROS2)
+#	# find dependencies
+#	find_package(ament_cmake REQUIRED)
+#
+#	#ament_target_dependencies(MY_TARGET
+#	#  rclcpp...
+#	#)
+#
+#	ament_package()
+#endif()
